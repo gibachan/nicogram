@@ -1,4 +1,4 @@
-import NicoNico
+import NicoNicoKit
 import Foundation
 import Dispatch
 
