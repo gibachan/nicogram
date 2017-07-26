@@ -5,8 +5,12 @@ let package = Package(
     targets: [
         Target(name: "NicoNicoKit"),
         Target(
-            name: "Nicogram",
+            name: "NicogramCore",
             dependencies: ["NicoNicoKit"]
+        ),
+        Target(
+            name: "Nicogram",
+            dependencies: ["NicogramCore"]
         )
     ]
 )
