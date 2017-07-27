@@ -19,3 +19,12 @@ class ArgumentTests: XCTestCase {
         XCTAssertEqual(result.2, "http://www.nicovideo.jp/watch/sm8628149")
     }
 }
+
+extension ArgumentTests {
+    static var allTests : [(String, (ArgumentTests) -> () throws -> Void)] {
+        return [
+            ("testExtractVideId", testExtractVideId),
+            ("testParseArguments", testParseArguments)
+        ]
+    }
+}
