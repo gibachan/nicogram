@@ -12,5 +12,8 @@ let package = Package(
             name: "Nicogram",
             dependencies: ["NicogramCore"]
         )
+    ],
+    dependencies: [
+        .Package(url: "https://github.com/jkandzi/Progress.swift", majorVersion: 0)
     ]
 )

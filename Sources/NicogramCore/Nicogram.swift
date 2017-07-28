@@ -1,10 +1,15 @@
 import Foundation
 import NicoNicoKit
+import Progress
 
 public class Nicogram {
     public init() {}
     
     public func run(_ arguments: [String]) {
+        // Configure ProgressBar
+        var bar = ProgressBar(count: 100, configuration: [ProgressPercent(), ProgressBarLine(barLength: 50)])
+        bar.next()
+        
         // Parse command line options
         var options: (String, String, String)
         
@@ -33,9 +38,13 @@ public class Nicogram {
         
         // Start downloading
         let start = Date()
-        
+        var progressCounter = 0
         let progressHandler: (Float) -> Void = { progress in
-            print("\u{1B}[1A\u{1B}[KDownloading: \(String(format: "%.2f", progress * 100))%")
+            let counter = Int(progress * 100)
+            if counter > progressCounter {
+                progressCounter = counter
+                bar.next()
+            }
         }
         
         download(email: email, password: password, videoId: videoId, progressHandler: progressHandler) { url in
