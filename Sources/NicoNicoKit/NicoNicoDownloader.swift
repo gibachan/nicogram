@@ -7,9 +7,10 @@
 
 import Foundation
 
-public func download(email: String, password: String, videoId: String, completionHandler: @escaping (URL?) -> Void) {
+public func download(email: String, password: String, videoId: String, progressHandler: @escaping (Float) -> Void, completionHandler: @escaping (URL?) -> Void) {
     let account = NicoNicoAccount(email: email, password: password)
     let downloader = NicoNicoDownloader(account: account)
+    downloader.progressHandler = progressHandler
     downloader.download(videoId: videoId) { (url) in
         completionHandler(url)
     }
@@ -21,6 +22,8 @@ public class NicoNicoDownloader: NSObject, URLSessionDownloadDelegate {
     private var videoId: String = ""
     private var downloadedFile: URL?
     private var downloadCompletionHandeler: ((URL?) -> Void) = { url in }
+
+    public var progressHandler: ((Float) -> Void)?
     
     public init(account: NicoNicoAccount) {
         super.init()
@@ -39,21 +42,21 @@ public class NicoNicoDownloader: NSObject, URLSessionDownloadDelegate {
                 completionHandler(nil)
                 return
             }
-            
+
             self.requestURLOfVideo { videoUrl in
                 guard videoUrl != nil else {
                     print("Failed to get url")
                     completionHandler(nil)
                     return
                 }
-                
+
                 self.watchVideo { watched in
                     guard watched == true else {
                         print("Failed to watch")
                         completionHandler(nil)
                         return
                     }
-                    
+
                     self.download(url: videoUrl!)
                 }
             }
@@ -177,7 +180,11 @@ public class NicoNicoDownloader: NSObject, URLSessionDownloadDelegate {
     
     public func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didWriteData bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
         let progress = Float(totalBytesWritten) / Float(totalBytesExpectedToWrite)
-        print("\u{1B}[1A\u{1B}[KDownloading: \(String(format: "%.2f", progress * 100))%")
+        if let progressHandler = progressHandler {
+            progressHandler(progress)
+        } else {
+            print("\u{1B}[1A\u{1B}[KDownloading: \(String(format: "%.2f", progress * 100))%")
+        }
     }
 }
 

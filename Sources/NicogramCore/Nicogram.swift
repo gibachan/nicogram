@@ -34,7 +34,11 @@ public class Nicogram {
         // Start downloading
         let start = Date()
         
-        download(email: email, password: password, videoId: videoId) { url in
+        let progressHandler: (Float) -> Void = { progress in
+            print("\u{1B}[1A\u{1B}[KDownloading: \(String(format: "%.2f", progress * 100))%")
+        }
+        
+        download(email: email, password: password, videoId: videoId, progressHandler: progressHandler) { url in
             if let url = url {
                 let elapsed = Date().timeIntervalSince(start) as Double
                 let formatedElapsed = String(format: "%.3f", elapsed)
