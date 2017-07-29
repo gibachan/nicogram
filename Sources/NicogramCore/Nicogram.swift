@@ -54,6 +54,7 @@ public class Nicogram {
                 print("Downloaded: \(url.path) Download time: \(formatedElapsed)(s)")
                 exit(0)
             } else {
+                print("Failed to download")
                 exit(3)
             }
         }

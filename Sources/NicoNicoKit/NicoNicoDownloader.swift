@@ -172,10 +172,9 @@ public class NicoNicoDownloader: NSObject, URLSessionDownloadDelegate {
         
         if let error = error {
             print(error.localizedDescription)
-            downloadCompletionHandeler(nil)
-        } else {
-            downloadCompletionHandeler(downloadedFile)
         }
+
+        downloadCompletionHandeler(nil)
     }
     
     public func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didWriteData bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
