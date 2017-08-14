@@ -52,7 +52,7 @@ public struct NicoNicoSession {
             return
         }
         
-        guard let cookies = storage.cookies else {
+        guard let cookies = storage.cookies(for: URL(string: loginUrl)!) else {
             return
         }
         

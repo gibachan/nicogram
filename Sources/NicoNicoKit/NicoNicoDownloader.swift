@@ -46,6 +46,7 @@ public class NicoNicoDownloader: NSObject, URLSessionDownloadDelegate {
             self.requestURLOfVideo { videoUrl in
                 guard videoUrl != nil else {
                     print("Failed to get url")
+                    self.session.logout()
                     completionHandler(nil)
                     return
                 }
@@ -53,6 +54,7 @@ public class NicoNicoDownloader: NSObject, URLSessionDownloadDelegate {
                 self.watchVideo { watched in
                     guard watched == true else {
                         print("Failed to watch")
+                        self.session.logout()
                         completionHandler(nil)
                         return
                     }
@@ -174,6 +176,7 @@ public class NicoNicoDownloader: NSObject, URLSessionDownloadDelegate {
             print(error.localizedDescription)
         }
 
+        self.session.logout()
         downloadCompletionHandeler(nil)
     }
     
