@@ -11,6 +11,8 @@ public struct NicoNicoSession {
     var session: URLSession!
     var account: NicoNicoAccount
     
+    let loginUrl = "https://secure.nicovideo.jp/secure/login"
+    
     public init(account: NicoNicoAccount, delegate: URLSessionDelegate) {
         self.session = URLSession(configuration: .default, delegate: delegate, delegateQueue: nil)
         self.account = account
@@ -18,7 +20,7 @@ public struct NicoNicoSession {
     
     public func login(completionHandler: @escaping ((Bool) -> Void)) {
         
-        let urlString = "https://secure.nicovideo.jp/secure/login?site=niconico"
+        let urlString = "\(loginUrl)?site=niconico"
         let postString = "mail=\(account.email)&password=\(account.password)&as3=1"
         let url = URL(string: urlString)!
         
